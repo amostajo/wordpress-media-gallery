@@ -118,11 +118,22 @@ if (typeof jQuery === 'undefined') {
 			}
 		};
 
+		// Save previous event
+		self.prev_send_to_editor = window.send_to_editor;
+
 		// Editor callback
 		window.send_to_editor = function (html)
 		{
-			if (self.settings.editor == undefined || this.activeEditor != self.settings.editor)
-				return;
+			if (self.settings.editor == undefined
+				|| (this.activeEditor != self.settings.editor
+				&& editor != self.settings.editor)
+			)
+				return self.prev_send_to_editor == undefined
+					? undefined
+					: self.prev_send_to_editor(
+						html,
+						this.activeEditor == undefined ? editor : this.activeEditor
+					);
 
 			self._parseEditorHTML(html);
 		};
