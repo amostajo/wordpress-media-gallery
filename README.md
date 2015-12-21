@@ -31,7 +31,7 @@ wp_enqueue_media();
 // (2) Enqueue "Wordpress Media Uploader"
 wp_enqueue_script(
 	'wp-media-uploader',
-	PATH_TO_FILE . '/wordpress-media-uploader/js/jquery.wp-media-uploader.min.js',
+	PATH_TO_FILE . '/wordpress-media-uploader/dist/jquery.wp-media-uploader.min.js',
 	[ 'jquery', 'jquery-ui-core' ]
 );
 ```
