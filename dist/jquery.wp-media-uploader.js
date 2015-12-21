@@ -92,6 +92,15 @@ if (typeof jQuery === 'undefined') {
 						id: $(this).find('img').attr('class').replace(/[A-Za-z\-\s]/g, '')
 					});
 
+				} else if ($(this).is('img')) {
+
+					media.push({
+						type: 'image',
+						url: $(this).attr('src'),
+						alt: $(this).attr('alt'),
+						id: $(this).attr('class').replace(/[A-Za-z\-\s]/g, '')
+					});
+
 				} else if ($(this).attr('href') != undefined) {
 
 					media.push({

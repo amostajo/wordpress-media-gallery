@@ -1,0 +1,19 @@
+{
+  "name": "wordpress-media-gallery",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amostajo/wordpress-media-uploader.git"
+  },
+  "author": "Alejandro Mostajo <amostajo@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amostajo/wordpress-media-uploader/issues"
+  },
+  "homepage": "https://github.com/amostajo/wordpress-media-uploader",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-copy": "^0.8.2",
+    "grunt-contrib-uglify": "^0.11.0"
+  }
+}
