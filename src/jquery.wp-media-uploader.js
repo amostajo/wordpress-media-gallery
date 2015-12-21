@@ -122,7 +122,7 @@ if (typeof jQuery === 'undefined') {
 		self.prev_send_to_editor = window.send_to_editor;
 
 		// Editor callback
-		window.send_to_editor = function (html)
+		window.send_to_editor = function (html, editor)
 		{
 			if (self.settings.editor == undefined
 				|| (this.activeEditor != self.settings.editor
