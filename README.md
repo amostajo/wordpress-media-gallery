@@ -11,6 +11,7 @@ JQuery plugin for [Wordpress](https://wordpress.org/) that simplifies the develo
     - [Basic](#html)
     - [Rendering](#rendering)
     - [Options](#options)
+    - [Methods](#methods)
 - [License](#license)
 
 ## Installation
@@ -153,6 +154,33 @@ $("#media-caller").mediaUploader({
         });
     }
 });
+```
+
+### Methods
+
+In order to use public methods. Plugin needs to be stored into a variable.
+
+```javascript
+window.mediaUploader = $("#media-caller").mediaUploader();
+```
+
+|  Method           | Description                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------- |
+| `add`             | Manually adds media to plugin.                                                                    |
+
+#### Method add()
+
+```javascript
+// Adding an individual media object
+mediaUploader.add({
+    type: 'image', // Supported: 'image','file'
+    src: 'http://url.to.media',
+    id: 707, // Media ID. (optional)
+    alt: 'Image alt' // (optional)
+});
+
+// Adding multiple images passing an array as parameter.
+mediaUploader.add([]);
 ```
 
 ## LICENSE
