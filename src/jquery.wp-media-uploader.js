@@ -5,7 +5,7 @@
  *
  * @author Alejandro Mostajo
  * @lincense MIT
- * @version 1.1.0
+ * @version 1.1.1
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
@@ -79,6 +79,7 @@ if (typeof jQuery === 'undefined') {
          * Parses an individual media item and returns it as template.
          * @since 1.0.0
          * @since 1.1.0 Added embed video.
+         * @since 1.1.1 Support video frame for embed videos.
          *
          * @param object media Object with media details.
          *
@@ -151,6 +152,16 @@ if (typeof jQuery === 'undefined') {
                         alt: $(this).attr('alt'),
                         id: $(this).attr('class').replace(/[A-Za-z\-\s]/g, ''),
                         img: $(this).attr('img')
+                    });
+
+                } else if ($(this).hasClass('video-frame')) {
+
+                    media.push({
+                        type: 'embed',
+                        url: $(this).find('iframe').attr('src'),
+                        alt: $(this).find('iframe').attr('alt'),
+                        id: $(this).find('iframe').attr('class').replace(/[A-Za-z\-\s]/g, ''),
+                        img: $(this).find('iframe').attr('img')
                     });
 
                 }
