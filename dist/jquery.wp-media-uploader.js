@@ -5,7 +5,7 @@
  *
  * @author Alejandro Mostajo
  * @lincense MIT
- * @version 1.0.4
+ * @version 1.1.0
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
@@ -78,6 +78,7 @@ if (typeof jQuery === 'undefined') {
         /**
          * Parses an individual media item and returns it as template.
          * @since 1.0.0
+         * @since 1.1.0 Added embed video.
          *
          * @param object media Object with media details.
          *
@@ -97,6 +98,9 @@ if (typeof jQuery === 'undefined') {
             if (media.type == 'image' && $(html).find('img').length > 0) {
                 $(html).find('img').attr('src', media.url);
             }
+            if (media.type == 'embed' && $(html).find('img').length > 0) {
+                $(html).find('img').attr('src', media.img);
+            }
             return html;
         }
 
@@ -104,6 +108,7 @@ if (typeof jQuery === 'undefined') {
          * Parse HTML sent by wordpress editor.
          * Editor callback processing function.
          * @since 1.0.0
+         * @since 1.1.0 Added embed video.
          *
          * @param string html HTML sent by wordpress editor.
          */
@@ -137,6 +142,17 @@ if (typeof jQuery === 'undefined') {
                         type: 'file',
                         url: $(this).attr('href')
                     });
+
+                } else if ($(this).is('iframe')) {
+
+                    media.push({
+                        type: 'embed',
+                        url: $(this).attr('src'),
+                        alt: $(this).attr('alt'),
+                        id: $(this).attr('class').replace(/[A-Za-z\-\s]/g, ''),
+                        img: $(this).attr('img')
+                    });
+
                 }
 
             });
