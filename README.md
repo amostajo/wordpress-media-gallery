@@ -41,6 +41,13 @@ wp_enqueue_script(
 
 **NOTE:** See [wp_enqueue_script](https://codex.wordpress.org/Function_Reference/wp_enqueue_script) codex reference for more options.
 
+## Supports
+
+* Images
+* Files
+* Videos (MP4)
+* Embeded (Youtube and Vimeo)
+
 ## Usage
 
 ### Basic
@@ -116,14 +123,17 @@ Once `Wordpress Media Uploader` starts, the template (HTML code) is removed from
 
 Available template variables (must be under parenthesis `{{}}`):
 
-Variable  | Description       | Media types
---------- | ----------------- | ------------
-`{{id}}`  | Attachment ID.    | image
-`{{url}}` | Media url.        | image, file
-`{{alt}}` | Alternative text. | image
+Variable   | Description       | Media types
+---------- | ----------------- | ------------
+`{{type}}` | Media type.       | image, file, video, embed
+`{{id}}`   | Attachment ID.    | image
+`{{url}}`  | Media url.        | image, file
+`{{alt}}`  | Alternative text. | image
+`{{img}}`  | Image url.        | video, embed
 
-**NOTE:** When the media returned is an image, the `src` attribute is added to the `img` tag.
+**NOTE:** When the media returned is an image, the `src` attribute is automatically binded to the `img` tag.
 **NOTE:** When the media returned is a file, the `img` tag is removed.
+**NOTE:** When the media returned is a video or embed, the `img` attribute is automatically binded to the `img` tag.
 
 ### Options
 
@@ -138,6 +148,7 @@ Javascript available options:
 | `clearTarget`     | boolean   | Flag that indicates if plugin should clear the target before rendering results. **Default:** true |
 | `clearTemplate`   | boolean   | Flag that indicates if plugin should clear the template inside the caller. **Default:** true      |
 | `success`         | function  | Callback function with `media` results as parameter, called after render process has finished.    |
+| `filterMedia`     | function  | Callback function that filters and replaces the `media` object (as parameter) prior to being renderer. |
 
 Here an example of how to prevent the plugin from rendering and do some custom logic instead:
 ```javascript
@@ -152,7 +163,17 @@ $("#media-caller").mediaUploader({
             // DO CUSTOM LOGIC GERE
 
         });
-    }
+    },
+    filterMedia: function(media) {
+
+        // Sample of how to filter the media captured
+        if (media.type == 'video') {
+            media.img = 'default.jpg';
+        }
+
+        // Returns media filtered
+        return media;
+    },
 });
 ```
 

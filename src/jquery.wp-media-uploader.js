@@ -5,7 +5,7 @@
  *
  * @author Alejandro Mostajo
  * @lincense MIT
- * @version 1.1.1
+ * @version 1.2.0
  *
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
@@ -32,6 +32,7 @@ if (typeof jQuery === 'undefined') {
         /**
          * Plugin options.
          * @since 1.0.0
+         * @since 1.2.0 Added filterMedia.
          */
         self.settings = $.extend({
             editor: undefined,
@@ -40,7 +41,8 @@ if (typeof jQuery === 'undefined') {
             clearTarget: true,
             target: undefined,
             success: undefined,
-            template: undefined
+            template: undefined,
+            filterMedia: undefined,
         }, options );
 
         /**
@@ -80,6 +82,7 @@ if (typeof jQuery === 'undefined') {
          * @since 1.0.0
          * @since 1.1.0 Added embed video.
          * @since 1.1.1 Support video frame for embed videos.
+         * @since 1.2.0 Support for videos (MP4).
          *
          * @param object media Object with media details.
          *
@@ -102,6 +105,9 @@ if (typeof jQuery === 'undefined') {
             if (media.type == 'embed' && $(html).find('img').length > 0) {
                 $(html).find('img').attr('src', media.img);
             }
+            if (media.type == 'video' && media.img && $(html).find('img').length > 0) {
+                $(html).find('img').attr('src', media.img);
+            }
             return html;
         }
 
@@ -110,6 +116,7 @@ if (typeof jQuery === 'undefined') {
          * Editor callback processing function.
          * @since 1.0.0
          * @since 1.1.0 Added embed video.
+         * @since 1.2.0 Added video shortcode (MP4) and added filterMedia callback.
          *
          * @param string html HTML sent by wordpress editor.
          */
@@ -117,9 +124,26 @@ if (typeof jQuery === 'undefined') {
         {
             var media = [];
 
+            // Shortcode to html
+            if (html.search(/\[[/s/S]+/g) !== -1) {
+                // Replace []
+                html = html.replace(/\[/g, '<');
+                html = html.replace(/\]/g, '>');
+            }
+
             $.each($(html), function (index) {
 
-                if ($(this).find('img').length > 0) {
+                if ($(this).is('video') && $(this).attr('mp4') !== undefined) {
+
+                    media.push({
+                        type: 'video',
+                        url: $(this).attr('mp4'),
+                        img: $(this).attr('img'),
+                        alt: 'MP4 video',
+                        id: $(this).attr('id')
+                    });
+
+                } else if ($(this).find('img').length > 0) {
 
                     media.push({
                         type: 'image',
@@ -167,6 +191,10 @@ if (typeof jQuery === 'undefined') {
                 }
 
             });
+
+            if (self.settings.filterMedia != undefined) {
+                media = self.settings.filterMedia(media);
+            }
 
             self._render(media);
 
